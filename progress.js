@@ -3,8 +3,8 @@
 */
 'use strict';
 function Progress(){
-  const ct=Progress.create();
-  let val=0;
+	const ct=Progress.create();
+	let val=0;
 	this.getElement=function(){return ct};
 	this.getValue=function(){return val};
 	this.setValue=function(v){
