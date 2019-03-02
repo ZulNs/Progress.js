@@ -3,12 +3,27 @@
 */
 'use strict';
 function Progress(){
-	let ct=document.createElement('div'),
+  const ct=Progress.create();
+  let val=0;
+	this.getElement=function(){return ct};
+	this.getValue=function(){return val};
+	this.setValue=function(v){
+		v=Math.abs(parseInt(v));
+		if(!isNaN(v)){
+			if(v>100)v%=100;
+			val=v;
+			let d=parseInt(v*2.64);
+			ct.childNodes[0].childNodes[0].innerHTML=v+'%';
+			ct.childNodes[0].childNodes[1].childNodes[0].setAttribute('stroke-dasharray',d+' '+(264-d))
+		}
+	}
+}
+Progress.create=function(){
+	const ct=document.createElement('div'),
 		wr=document.createElement('div'),
 		vl=document.createElement('div'),
 		sv=document.createElementNS('http://www.w3.org/2000/svg', 'svg'),
-		cc=document.createElementNS('http://www.w3.org/2000/svg', 'circle'),
-		val=0;
+		cc=document.createElementNS('http://www.w3.org/2000/svg', 'circle');
 	sv.appendChild(cc);
 	wr.appendChild(vl);
 	wr.appendChild(sv);
@@ -25,16 +40,5 @@ function Progress(){
 	cc.setAttribute('r','42');
 	cc.setAttribute('stroke-dasharray','0 264');
 	vl.innerHTML='0%';
-	this.getElement=function(){return ct};
-	this.getValue=function(){return val};
-	this.setValue=function(v){
-		v=Math.abs(parseInt(v));
-		if(!isNaN(v)){
-			if(v>100)v%=100;
-			val=v;
-			let d=parseInt(v*2.64);
-			vl.innerHTML=v+'%';
-			cc.setAttribute('stroke-dasharray',d+' '+(264-d));
-		}
-	}
-}
+  return ct
+};
